@@ -17,10 +17,16 @@ def forward(X: ndarray, Y: ndarray, weights: Dict[str, ndarray]) ->  Tuple[float
     w = weights['w']
     b = weights['b']
 
-    N = #TODO Matrix Multiplication -> np.dot(X,weights)
-    P = #TODO Adding Bias -> N + b
-    loss = #TODO Compute Mean Squared Error -> np.mean(np.power((Y-P), 2))
+    # Matrix multiplication of X and weights.
+    # Caution: The matrix shapes of X and weights have to be concerned 
+    N = np.dot(X,w)
+    # Bias addition with broadcasting and calculated Prediction as P
+    P = N + b
+    # Calculated loss function using Mean Squared Error
+    loss = np.mean(np.power((Y-P), 2))
 
+
+    # Intermediate values till Loss function are stored and returned in a Dictionary
     info = {}
     info['X'] = X
     info['Y'] = Y
