@@ -65,9 +65,16 @@ class Regression(object):
             'rmse': rmse
         }
 
-        # predictions = X*self._weights['W'] + self._weights['B']
-        predictions = _X @ self._weights['W'] + self ._weights['B']
-        score = metric(predictions, Y) #TODO
+        predictions = X @ self._weights['W'] + self ._weights['B']
+        if metric == 'mae':
+            score = mae(Y, predictions)
+        elif metric == 'sse':
+            score = sse(Y, predictions)
+        elif metric == 'mse':
+            score = mse(Y, predictions)
+        else:
+            score = mse(Y, predictions)
+
         return score
 
     def _initialize_weights(self, shape: Tuple[int, int]) -> None:
@@ -75,7 +82,7 @@ class Regression(object):
         of the bias will be (1,1).
         """
         self._weights = {
-            'W': np.random.rand(self._X.shape[1],1), 
+            'W': np.random.rand(shape[1],1), 
             'B': np.random.rand(1,1)   
         }
     
@@ -89,5 +96,6 @@ class Regression(object):
             print('Loss: ', loss)
             #Computes backward propagation
             grads = backward(info, self._weights) 
-            self._weights['W'] = self._weights['W'] - self._lr * [grads['W']]  
-            self._weights['B'] = self._weights['B'] - self._lr * [grads['B']] 
+            self._weights['W'] = self._weights['W'] - self._lr * grads['W']
+            self._weights['B'] = self._weights['B'] - self._lr * grads['B']
+            print(grads['W'].shape)
