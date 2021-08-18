@@ -8,7 +8,6 @@ from typing import Dict, Tuple
 import numpy as np
 from numpy import ndarray
 
-from regresspy import loss
 from loss import mae, sse, mse, rmse
 from gradient_descent import forward, backward
 
@@ -98,4 +97,4 @@ class Regression(object):
             grads = backward(info, self._weights) 
             self._weights['W'] = self._weights['W'] - self._lr * grads['W']
             self._weights['B'] = self._weights['B'] - self._lr * grads['B']
-            print(grads['W'].shape)
+            
